@@ -2,22 +2,31 @@
     "PuzzleAgent": {
         "checkpoints": [
             {
-                "steps": 25000,
-                "file_path": "results\\firstPuzzleAgentRun\\PuzzleAgent\\PuzzleAgent-25000.onnx",
-                "reward": 0.0,
-                "creation_time": 1744052337.8225944,
+                "steps": 499999,
+                "file_path": "results\\firstPuzzleAgentRun\\PuzzleAgent\\PuzzleAgent-499999.onnx",
+                "reward": 1.0805745052050004,
+                "creation_time": 1744056657.6218038,
                 "auxillary_file_paths": [
-                    "results\\firstPuzzleAgentRun\\PuzzleAgent\\PuzzleAgent-25000.pt"
+                    "results\\firstPuzzleAgentRun\\PuzzleAgent\\PuzzleAgent-499999.pt"
+                ]
+            },
+            {
+                "steps": 500014,
+                "file_path": "results\\firstPuzzleAgentRun\\PuzzleAgent\\PuzzleAgent-500014.onnx",
+                "reward": 1.0806146943441002,
+                "creation_time": 1744056657.673505,
+                "auxillary_file_paths": [
+                    "results\\firstPuzzleAgentRun\\PuzzleAgent\\PuzzleAgent-500014.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 25000,
+            "steps": 500014,
             "file_path": "results\\firstPuzzleAgentRun\\PuzzleAgent.onnx",
-            "reward": 0.0,
-            "creation_time": 1744052337.8225944,
+            "reward": 1.0806146943441002,
+            "creation_time": 1744056657.673505,
             "auxillary_file_paths": [
-                "results\\firstPuzzleAgentRun\\PuzzleAgent\\PuzzleAgent-25000.pt"
+                "results\\firstPuzzleAgentRun\\PuzzleAgent\\PuzzleAgent-500014.pt"
             ]
         }
     },
