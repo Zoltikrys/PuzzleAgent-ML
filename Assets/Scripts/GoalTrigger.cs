@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Goal : MonoBehaviour
+public class GoalTrigger : MonoBehaviour
 {
     public PuzzleManager puzzleManager;
 
@@ -10,26 +10,5 @@ public class Goal : MonoBehaviour
         {
             puzzleManager.BoxInGoal();
         }
-    }
-
-
-
-
-
-
-
-
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
