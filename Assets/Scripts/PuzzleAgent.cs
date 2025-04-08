@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using Random = UnityEngine.Random;
 
 public class PuzzleAgent : Agent
 {
@@ -49,7 +50,6 @@ public class PuzzleAgent : Agent
         //Actions
         float moveX = actionBuffers.ContinuousActions[0]; //Left/Right
         float moveZ = actionBuffers.ContinuousActions[1]; //Up/Down movement
-        //bool isPushing = actionBuffers.DiscreteActions[2] > 0;
 
         // Movement
         Vector3 movement = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
@@ -57,18 +57,6 @@ public class PuzzleAgent : Agent
 
         //Visual feedback for movement
         Debug.DrawRay(transform.position, movement, Color.green, 0.5f);
-
-        //Pushing
-        /*if (isPushing && Vector3.Distance(transform.position, boxTransform.position) < 2f)
-        {
-            //Apply force to the box
-            Vector3 pushDirection = (boxTransform.position - transform.position).normalized;
-            Rigidbody boxRB = boxTransform.GetComponent<Rigidbody>();
-            boxRB.AddForce(pushDirection * pushForce, ForceMode.Impulse);
-
-            //Visual feedback for push
-            Debug.DrawRay(transform.position, pushDirection * 2f, Color.blue, 0.5f);
-        }*/
 
         //Rewards
         float distToGoal = Vector3.Distance(boxTransform.position, goalTransform.position);
@@ -78,7 +66,7 @@ public class PuzzleAgent : Agent
         AddReward(-0.001f);
 
         //Small reward for getting close to the box
-        if (distToAgent < 2f)
+        if (distToAgent < 0.05f)
             AddReward(0.001f);
 
         //Small reward for getting box closer to goal
@@ -118,15 +106,10 @@ public class PuzzleAgent : Agent
         Debug.Log("Horizontal Input: " + Input.GetAxis("Horizontal"));
         Debug.Log("Vertical Input: " + Input.GetAxis("Vertical"));
 
-
         //Set continuous actions
         var continuousActionsOut = actionsOut.ContinuousActions;
         continuousActionsOut[0] = Input.GetAxis("Horizontal"); //Set horizontal movement
         continuousActionsOut[1] = Input.GetAxis("Vertical"); //Set vertical movement
-
-        ////Set discrete actions
-        //var discreteActionsOut = actionsOut.DiscreteActions;
-        //discreteActionsOut[2] = Input.GetKey(KeyCode.Space) ? 1 : 0; //Push with space
     }
     
 
@@ -135,9 +118,9 @@ public class PuzzleAgent : Agent
     public override void OnEpisodeBegin()
     {
         //Reset the agent's position, box and goal
-        transform.position = new Vector3(0f, 1f, -1f);
-        boxTransform.position = new Vector3(2f, 0.5f, -1f);
-        goalTransform.position = new Vector3(3f, 0f, -3f);
+        transform.localPosition = new Vector3(Random.Range(-5f, 1.87f), 7.8f, Random.Range(-1.67f, -8.67f));
+        boxTransform.localPosition = new Vector3(Random.Range(-4.1f, -2.5f), 7.5f, Random.Range(-7.6f, -2.6f));
+        //goalTransform.localPosition = new Vector3(Random.Range(-5.12f, 1.9f), 6.77f, Random.Range(-8.65f, -1.6f));
 
         //Reset velocities
         agentRB.velocity = Vector3.zero;
@@ -151,6 +134,22 @@ public class PuzzleAgent : Agent
         //Reset puzzle state
         manager.Reset();
     }
+
+    /*
+    public override void OnEpisodeBegin()
+    {
+        gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        gameObject.transform.Rotate(new Vector3(1, 0, 0), Random.Range(-10f, 10f));
+        gameObject.transform.Rotate(new Vector3(0, 0, 1), Random.Range(-10f, 10f));
+        m_BallRb.velocity = new Vector3(0f, 0f, 0f);
+        ball.transform.position = new Vector3(Random.Range(-1.5f, 1.5f), 4f, Random.Range(-1.5f, 1.5f))
+            + gameObject.transform.position;
+        //Reset the parameters when the Agent is reset.
+        SetResetParameters();
+    }
+    */
+
+
 
     //Reward on completion
     public void OnBoxInGoal()
