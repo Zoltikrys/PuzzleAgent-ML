@@ -1,0 +1,56 @@
+{
+    "PuzzleAgent": {
+        "checkpoints": [
+            {
+                "steps": 499960,
+                "file_path": "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-499960.onnx",
+                "reward": -0.6985714248248509,
+                "creation_time": 1744122318.7012236,
+                "auxillary_file_paths": [
+                    "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-499960.pt"
+                ]
+            },
+            {
+                "steps": 999940,
+                "file_path": "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-999940.onnx",
+                "reward": 0.2977323664063719,
+                "creation_time": 1744123280.2799432,
+                "auxillary_file_paths": [
+                    "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-999940.pt"
+                ]
+            },
+            {
+                "steps": 1499965,
+                "file_path": "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-1499965.onnx",
+                "reward": 0.788999969208682,
+                "creation_time": 1744124313.1836543,
+                "auxillary_file_paths": [
+                    "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-1499965.pt"
+                ]
+            },
+            {
+                "steps": 1500066,
+                "file_path": "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-1500066.onnx",
+                "reward": 0.8033928243177277,
+                "creation_time": 1744124313.2576542,
+                "auxillary_file_paths": [
+                    "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-1500066.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1500066,
+            "file_path": "results\\reallyLongTraining\\PuzzleAgent.onnx",
+            "reward": 0.8033928243177277,
+            "creation_time": 1744124313.2576542,
+            "auxillary_file_paths": [
+                "results\\reallyLongTraining\\PuzzleAgent\\PuzzleAgent-1500066.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
