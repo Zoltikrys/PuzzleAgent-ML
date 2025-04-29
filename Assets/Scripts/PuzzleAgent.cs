@@ -120,7 +120,7 @@ public class PuzzleAgent : Agent
         //Reset the agent's position, box and goal
         transform.localPosition = new Vector3(Random.Range(-5f, 1.87f), 7.8f, Random.Range(-1.67f, -8.67f));
         boxTransform.localPosition = new Vector3(Random.Range(-4.1f, -2.5f), 7.5f, Random.Range(-7.6f, -2.6f));
-        //goalTransform.localPosition = new Vector3(Random.Range(-5.12f, 1.9f), 6.77f, Random.Range(-8.65f, -1.6f));
+        goalTransform.localPosition = new Vector3(Random.Range(-5.12f, 1.9f), 6.77f, Random.Range(-8.65f, -1.6f));
 
         //Reset velocities
         agentRB.velocity = Vector3.zero;
