@@ -1,74 +1,81 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class PuzzleManager : MonoBehaviour
 {
+    [SerializeField] private bool puzzleComplete = false;
     [SerializeField] private PuzzleAgent agent;
 
-    private int totalGoals = 0;
-    private HashSet<Transform> matchedGoals = new HashSet<Transform>();
-    private bool puzzleComplete = false;
-
-    public void SetGoalCount(int count)
+    public void BoxInGoal()
     {
-        totalGoals = count;
-        matchedGoals.Clear();
-        puzzleComplete = false;
-    }
-
-    public void BoxInGoal(Transform goal)
-    {
-        if (puzzleComplete) return;
-
-        if (!matchedGoals.Contains(goal))
+        if (!puzzleComplete)
         {
-            matchedGoals.Add(goal);
-            Debug.Log($"Goal matched ({matchedGoals.Count}/{totalGoals})");
+            puzzleComplete = true;
+            Debug.Log("Puzzle complete!");
 
-            if (matchedGoals.Count >= totalGoals)
-            {
-                puzzleComplete = true;
-                Debug.Log("Puzzle complete!");
-                agent.OnBoxInGoal();
-            }
+            //Reward agent
+            agent.OnBoxInGoal();
         }
     }
 
+    
     public void Reset()
     {
-        matchedGoals.Clear();
+        /*
+        // Reset agent's position
+        agent.transform.position = new Vector3(1f, 1f, -1f);
+
+        // Reset box position and velocity
+        agent.boxTransform.position = new Vector3(2f, 0.5f, -1f);
+        Rigidbody boxRB = agent.boxTransform.GetComponent<Rigidbody>();
+        boxRB.velocity = Vector3.zero;
+        */
+
+        // Reset puzzle completion state
         puzzleComplete = false;
     }
+    
+
 
     public bool IsBoxStuck(Transform box)
     {
         Vector3[] directions = new Vector3[]
         {
-            Vector3.forward,
-            Vector3.back,
-            Vector3.left,
-            Vector3.right
+        Vector3.forward,
+        Vector3.back,
+        Vector3.left,
+        Vector3.right
         };
 
         foreach (Vector3 dir in directions)
         {
             Vector3 origin = box.position;
             Debug.DrawRay(box.position, dir, Color.yellow, 0.5f);
-
             if (Physics.Raycast(origin, dir, out RaycastHit hit, 1f))
             {
-                if (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Box"))
-                    continue;
+                if (hit.collider.CompareTag("Wall"))
+                {
+                    continue; //This direction is blocked by a wall
+                }
+
+                if (hit.collider.CompareTag("Box"))
+                {
+                    continue; //Treat other boxes as blocking
+                }
 
                 if (hit.collider.CompareTag("Floor"))
-                    return false;
+                {
+                    return false; //This direction is free
+                }
             }
             else
             {
-                return false; // open space
+                // Nothing hit, so it's empty space (e.g., maybe a gap or untagged space)
+                return false;
             }
         }
 
-        return true; // all directions blocked
+        return true; // All directions blocked
     }
+
+
 }
