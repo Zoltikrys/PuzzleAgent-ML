@@ -102,7 +102,7 @@ public class PuzzleAgent : Agent
         // Small step penalty to encourage speed
         AddReward(-0.001f);
 
-        // === Calculate total distance from each box to its nearest goal ===
+        // Calculate total distance from each box to its nearest goal
         float totalDistance = 0f;
 
         for (int i = 0; i < maxBoxes; i++)
@@ -112,16 +112,17 @@ public class PuzzleAgent : Agent
                 Transform box = boxTransforms[i];
                 float closestGoalDist = float.MaxValue;
 
-                for (int j = 0; j < goalTransforms.Count; j++)
+                for (int j = 0; j < maxGoals; j++)
                 {
-
-                    Transform goal = goalTransforms[j];
-                    float dist = Vector3.Distance(box.position, goal.position);
-                    if (dist < closestGoalDist)
+                    if (j < goalTransforms.Count)
                     {
-                        closestGoalDist = dist;
-                    }   
+                        Transform goal = goalTransforms[j];
+                        float dist = Vector3.Distance(box.position, goal.position);
+                        if (dist < closestGoalDist)
+                            closestGoalDist = dist;
+                    }
                 }
+
                 totalDistance += closestGoalDist;
             }
             else
@@ -130,37 +131,34 @@ public class PuzzleAgent : Agent
             }
         }
 
-        // Reward if total distance is reduced (boxes got closer to goals)
-        if (totalDistance < lastTotalDistance)
+        // Check if all boxes are in their goals
+        if (AreAllBoxesInGoals())
         {
-            AddReward(0.005f);
-        }
-
-        lastTotalDistance = totalDistance;
-
-        // === Optional: Draw debug lines ===
-        for (int i = 0; i < boxTransforms.Count; i++)
-        {
-            Transform box = boxTransforms[i];
-            for (int j = 0; j < goalTransforms.Count; j++)
-            {
-                Transform goal = goalTransforms[j];
-                Debug.DrawLine(box.position, goal.position, Color.red);
-            }
-        }
-
-        // === Check for stuck boxes ===
-        for (int i = 0; i < boxTransforms.Count; i++)
-        {
-            Transform box = boxTransforms[i];
-            if (manager.IsBoxStuck(box))
-            {
-                Debug.Log("A box is stuck!");
-                OnFailure();
-                return;
-            }
+            OnPuzzleComplete();
         }
     }
+
+    // Method to check if all boxes are in their respective goals
+    private bool AreAllBoxesInGoals()
+    {
+        foreach (Transform box in boxTransforms)
+        {
+            bool boxInGoal = false;
+            foreach (Transform goal in goalTransforms)
+            {
+                if (Vector3.Distance(box.position, goal.position) < 0.1f) // Adjust threshold as needed
+                {
+                    boxInGoal = true;
+                    break;
+                }
+            }
+
+            if (!boxInGoal) return false; // If any box is not in a goal, return false
+        }
+
+        return true; // If all boxes are in goals, return true
+    }
+
 
 
 
