@@ -13,6 +13,9 @@ public class PuzzleAgent : Agent
 
     private float lastTotalDistance;
 
+    private List<(Transform box, Transform goal)> matchedPairs = new List<(Transform, Transform)>();
+
+
     public List<Transform> boxTransforms; // References to multiple box transforms
     public List<Transform> goalTransforms; // References to multiple goal transforms
 
@@ -120,11 +123,14 @@ public class PuzzleAgent : Agent
             }
         }
 
+        
         // === Reward for reducing total distance ===
         float distanceChange = lastTotalDistance - totalDistance;
         AddReward(distanceChange * 0.1f); // The 0.1f scales the reward (tweakable)
 
         lastTotalDistance = totalDistance;
+        
+
 
         // === Small reward when agent gets closer to nearest box ===
         float closestBoxDist = float.MaxValue;
@@ -138,35 +144,59 @@ public class PuzzleAgent : Agent
         float boxProximityReward = Mathf.Clamp01(1.0f - (closestBoxDist / 10.0f)); // Assumes room ~10 units big
         AddReward(boxProximityReward * 0.001f);
 
-        // === Check for completion ===
-        if (AreAllBoxesInGoals())
+        // Check for newly matched boxes and goals
+        for (int i = 0; i < boxTransforms.Count; i++)
         {
-            OnPuzzleComplete();
-        }
-    }
+            Transform box = boxTransforms[i];
 
+            // Skip if already matched
+            bool alreadyMatched = matchedPairs.Exists(pair => pair.box == box);
+            if (alreadyMatched) continue;
 
-    // Method to check if all boxes are in their respective goals
-    private bool AreAllBoxesInGoals()
-    {
-        foreach (Transform box in boxTransforms)
-        {
-            bool boxInGoal = false;
-            foreach (Transform goal in goalTransforms)
+            for (int j = 0; j < goalTransforms.Count; j++)
             {
+                Transform goal = goalTransforms[j];
+
+                bool goalAlreadyMatched = matchedPairs.Exists(pair => pair.goal == goal);
+                if (goalAlreadyMatched) continue;
+
+
                 Vector2 boxPos2D = new Vector2(box.position.x, box.position.z);
                 Vector2 goalPos2D = new Vector2(goal.position.x, goal.position.z);
-                if (Vector2.Distance(boxPos2D, goalPos2D) < 0.5f) // or 0.3f etc.
+
+                if (Vector2.Distance(boxPos2D, goalPos2D) < 0.25f) // match threshold (tweakable)
+
                 {
-                    boxInGoal = true;
-                    break;
+
+
+                    box.position = new Vector3(goal.position.x, box.position.y, goal.position.z); //snap box onto goal
+
+                    //zero box velocity
+                    Rigidbody boxRB = box.GetComponent<Rigidbody>();
+                    boxRB.velocity = Vector3.zero;
+                    boxRB.angularVelocity = Vector3.zero;
+
+                    // Mark this pair as matched
+                    matchedPairs.Add((box, goal));
+
+                    // "Disappear" them
+                    box.gameObject.SetActive(false);
+                    goal.gameObject.SetActive(false);
+
+                    // Give reward
+                    AddReward(1.0f);
+
+                    break; // break inner loop
                 }
             }
-
-            if (!boxInGoal) return false; // If any box is not in a goal, return false
         }
 
-        return true; // If all boxes are in goals, return true
+        // End episode when all boxes are matched
+        if (matchedPairs.Count == Mathf.Min(boxTransforms.Count, goalTransforms.Count))
+        {
+            AddReward(2.0f); // Big bonus
+            EndEpisode();
+        }
     }
 
     // Reward on completion
@@ -193,7 +223,7 @@ public class PuzzleAgent : Agent
     private void Update()
     {
 
-        CheckIfFallen();
+        //CheckIfFallen();
 
         /*
         // Log detected inputs
@@ -220,6 +250,21 @@ public class PuzzleAgent : Agent
     // Called when the agent is reset
     public override void OnEpisodeBegin()
     {
+        // Reactivate all boxes and goals
+        foreach (Transform box in boxTransforms)
+        {
+            box.gameObject.SetActive(true);
+        }
+
+        foreach (Transform goal in goalTransforms)
+        {
+            goal.gameObject.SetActive(true);
+        }
+
+        // Clear matched pairs
+        matchedPairs.Clear();
+
+
         // Reset agent position
         transform.localPosition = new Vector3(Random.Range(-8.3f, 5f), 7.8f, Random.Range(-11.65f, 1.35f));
         agentRB.velocity = Vector3.zero;

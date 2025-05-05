@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  totalBoxesNeeded: 3
+  totalBoxesNeeded: 4
   trainingSpeed: 1

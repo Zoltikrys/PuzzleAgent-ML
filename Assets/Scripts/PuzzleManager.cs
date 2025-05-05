@@ -26,7 +26,7 @@ public class PuzzleManager : MonoBehaviour
             boxesInGoals.Add(box);
 
             // Reward the agent each time a new box reaches a goal
-            agent.OnBoxInGoal();
+            //agent.OnBoxInGoal();
 
             Debug.Log($"Boxes in goals: {boxesInGoals.Count}/{totalBoxesNeeded}");
 
@@ -36,7 +36,7 @@ public class PuzzleManager : MonoBehaviour
                 puzzleComplete = true;
                 Debug.Log("Puzzle complete! All boxes in goals.");
                 // Optionally reward extra for full completion
-                agent.OnPuzzleComplete();
+                //agent.OnPuzzleComplete();
             }
         }
     }
