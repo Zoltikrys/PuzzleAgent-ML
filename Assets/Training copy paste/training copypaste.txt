@@ -2,4 +2,6 @@ conda activate mlagents
 
 mlagents-learn Assets/config/ppo/trainer_config.yaml --run-id=firstPuzzleAgentRun --force
 
-mlagents-learn Assets/config/ppo/trainer_config.yaml --run-id=newAgentTrainging --force
+
+
+mlagents-learn Assets/config/ppo/trainer_config.yaml --run-id=MultiTraining --force

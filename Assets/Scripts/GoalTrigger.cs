@@ -8,7 +8,15 @@ public class GoalTrigger : MonoBehaviour
     {
         if (other.CompareTag("Box"))
         {
-            puzzleManager.BoxInGoal();
+            puzzleManager.BoxEnteredGoal(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Box"))
+        {
+            puzzleManager.BoxExitedGoal(other.gameObject);
         }
     }
 }

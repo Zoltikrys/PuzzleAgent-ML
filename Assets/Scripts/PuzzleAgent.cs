@@ -10,14 +10,18 @@ public class PuzzleAgent : Agent
 {
     public PuzzleManager manager;
 
-    public Transform boxTransform; //Reference to box transform
-    public Transform goalTransform; //Reference to goal transform
+    private float lastTotalDistance;
+
+
+    public List<Transform> boxTransforms; // References to multiple box transforms
+    public List<Transform> goalTransforms; // References to multiple goal transforms
+
     public float moveSpeed = 5f; //Movement speed of the agent
     public float pushForce = 5f; //Force applied to the box when pushed by the agent
 
     [SerializeField] private Rigidbody agentRB;
 
-    [SerializeField] private float lastBoxToGoalDistance;
+    //[SerializeField] private float lastBoxToGoalDistance;
 
     //Called when the agent is reset/placed into the environment
     public override void Initialize()
@@ -26,79 +30,145 @@ public class PuzzleAgent : Agent
     }
 
     //Collect observations for the agent
+    [SerializeField] private int maxBoxes = 4;
+    [SerializeField] private int maxGoals = 4;
+
     public override void CollectObservations(VectorSensor sensor)
     {
-        Vector3 agentPos = transform.position; // / 10f;
-        Vector3 boxPos = boxTransform.position; // / 10f;
-        Vector3 goalPos = goalTransform.position; // / 10f;
+        // Observe agent position
+        sensor.AddObservation(transform.position);
 
-        //Absolute positions (normalized)
-        sensor.AddObservation(agentPos); //Observation 1
-        sensor.AddObservation(boxPos); //Observation 2
-        sensor.AddObservation(goalPos); //Observation 3
+        // Observe agent velocity
+        sensor.AddObservation(agentRB.velocity);
 
-        //Relative positions (normalized)
-        sensor.AddObservation(boxPos - agentPos); //Observation 4
-        sensor.AddObservation(goalPos - boxPos); //Observation 5
-        sensor.AddObservation(agentPos - goalPos); //Observation 6
+        // === Observe boxes ===
+        int boxCount = boxTransforms.Count;
+
+        for (int i = 0; i < maxBoxes; i++)
+        {
+            if (i < boxCount)
+            {
+                Transform box = boxTransforms[i];
+                sensor.AddObservation(box.position);
+                sensor.AddObservation(box.position - transform.position);
+
+                Rigidbody boxRB = box.GetComponent<Rigidbody>();
+                sensor.AddObservation(boxRB.velocity);
+            }
+            else
+            {
+                // Padding: add zero observations
+                sensor.AddObservation(Vector3.zero); // box.position
+                sensor.AddObservation(Vector3.zero); // box relative position
+                sensor.AddObservation(Vector3.zero); // box velocity
+            }
+        }
+
+        // === Observe goals ===
+        int goalCount = goalTransforms.Count;
+
+        for (int i = 0; i < maxGoals; i++)
+        {
+            if (i < goalCount)
+            {
+                Transform goal = goalTransforms[i];
+                sensor.AddObservation(goal.position);
+                sensor.AddObservation(goal.position - transform.position);
+            }
+            else
+            {
+                // Padding: add zero observations
+                sensor.AddObservation(Vector3.zero); // goal.position
+                sensor.AddObservation(Vector3.zero); // goal relative position
+            }
+        }
     }
+
+
+
 
 
     //Take actions
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        //Actions
-        float moveX = actionBuffers.ContinuousActions[0]; //Left/Right
-        float moveZ = actionBuffers.ContinuousActions[1]; //Up/Down movement
+        // Actions
+        float moveX = actionBuffers.ContinuousActions[0];
+        float moveZ = actionBuffers.ContinuousActions[1];
 
-        // Movement
+        // Move agent
         Vector3 movement = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
         agentRB.MovePosition(transform.position + movement);
 
-        //Visual feedback for movement
-        Debug.DrawRay(transform.position, movement, Color.green, 0.5f);
-
-        //Rewards
-        float distToGoal = Vector3.Distance(boxTransform.position, goalTransform.position);
-        float distToAgent = Vector3.Distance(transform.position, boxTransform.position);
-
-        //Negative reward after each step to encourage faster solution
+        // Small step penalty to encourage speed
         AddReward(-0.001f);
 
-        //Small reward for getting close to the box
-        if (distToAgent < 0.05f)
-            AddReward(0.001f);
+        // === Calculate total distance from each box to its nearest goal ===
+        float totalDistance = 0f;
 
-        //Small reward for getting box closer to goal
-        float previousDistanceToGoal = lastBoxToGoalDistance;
-        if (distToGoal < previousDistanceToGoal)
-            AddReward(0.002f);
-
-        lastBoxToGoalDistance = distToGoal;
-
-        //Visual feedback for box-to-goal distance
-        Debug.DrawLine(boxTransform.position, goalTransform.position, Color.red);
-
-        //Check if the box is stuck
-        if (manager.IsBoxStuck(boxTransform))
+        for (int i = 0; i < maxBoxes; i++)
         {
-            Debug.Log("The box is stuck!");
-            OnFailure(); //Handle failure if the box is stuck
+            if (i < boxTransforms.Count)
+            {
+                Transform box = boxTransforms[i];
+                float closestGoalDist = float.MaxValue;
+
+                for (int j = 0; j < goalTransforms.Count; j++)
+                {
+
+                    Transform goal = goalTransforms[j];
+                    float dist = Vector3.Distance(box.position, goal.position);
+                    if (dist < closestGoalDist)
+                    {
+                        closestGoalDist = dist;
+                    }   
+                }
+                totalDistance += closestGoalDist;
+            }
+            else
+            {
+                // Padding case — ignore non-existent boxes
+            }
         }
 
-        // Reward the agent when the box is in the goal
-        if (Vector3.Distance(boxTransform.position, goalTransform.position) < 1f)
+        // Reward if total distance is reduced (boxes got closer to goals)
+        if (totalDistance < lastTotalDistance)
         {
-            manager.BoxInGoal(); //Notify the PuzzleManager
-            //OnBoxInGoal();
+            AddReward(0.005f);
+        }
+
+        lastTotalDistance = totalDistance;
+
+        // === Optional: Draw debug lines ===
+        for (int i = 0; i < boxTransforms.Count; i++)
+        {
+            Transform box = boxTransforms[i];
+            for (int j = 0; j < goalTransforms.Count; j++)
+            {
+                Transform goal = goalTransforms[j];
+                Debug.DrawLine(box.position, goal.position, Color.red);
+            }
+        }
+
+        // === Check for stuck boxes ===
+        for (int i = 0; i < boxTransforms.Count; i++)
+        {
+            Transform box = boxTransforms[i];
+            if (manager.IsBoxStuck(box))
+            {
+                Debug.Log("A box is stuck!");
+                OnFailure();
+                return;
+            }
         }
     }
 
 
 
+
+
     //Had problems implementic heuristic method so it's commented out for now
 
-    
+
     //Called when the agent interacts with the environment
     public override void Heuristic(in ActionBuffers actionsOut)
     {
@@ -111,43 +181,64 @@ public class PuzzleAgent : Agent
         continuousActionsOut[0] = Input.GetAxis("Horizontal"); //Set horizontal movement
         continuousActionsOut[1] = Input.GetAxis("Vertical"); //Set vertical movement
     }
-    
+
 
 
     //Reward system
     public override void OnEpisodeBegin()
     {
-        //Reset the agent's position, box and goal
-        transform.localPosition = new Vector3(Random.Range(-5f, 1.87f), 7.8f, Random.Range(-1.67f, -8.67f));
-        boxTransform.localPosition = new Vector3(Random.Range(-4.1f, -2.5f), 7.5f, Random.Range(-7.6f, -2.6f));
-        //goalTransform.localPosition = new Vector3(Random.Range(-5.12f, 1.9f), 6.77f, Random.Range(-8.65f, -1.6f));
-
-        //Reset velocities
+        // Reset agent position
+        transform.localPosition = new Vector3(Random.Range(-8.3f, 5f), 7.8f, Random.Range(-11.65f, 1.35f));
         agentRB.velocity = Vector3.zero;
 
-        Rigidbody boxRB = boxTransform.GetComponent<Rigidbody>();
-        boxRB.velocity = Vector3.zero;
+        // Reset each box
+        foreach (Transform box in boxTransforms)
+        {
+            box.localPosition = new Vector3(Random.Range(-8.3f, 5f), 7.5f, Random.Range(-11.65f, 1.35f));
+            Rigidbody boxRB = box.GetComponent<Rigidbody>();
+            boxRB.velocity = Vector3.zero;
+        }
 
-        //Reset distance tracker
-        lastBoxToGoalDistance = Vector3.Distance(boxTransform.position, goalTransform.position);
+        foreach (Transform goal in goalTransforms)
+        {
+            goal.localPosition = new Vector3(Random.Range(-8.3f, 5f), 6.77f, Random.Range(-11.65f, 1.35f));
+        }
 
-        //Reset puzzle state
+        // Reset total distance tracker (matching padding logic)
+        float totalDistance = 0f;
+
+        for (int i = 0; i < maxBoxes; i++)
+        {
+            if (i < boxTransforms.Count)
+            {
+                Transform box = boxTransforms[i];
+
+                // Find the closest goal for this box
+                float closestGoalDist = float.MaxValue;
+
+                foreach (Transform goal in goalTransforms)
+                {
+                    float dist = Vector3.Distance(box.position, goal.position);
+                    if (dist < closestGoalDist)
+                        closestGoalDist = dist;
+                }
+
+                totalDistance += closestGoalDist;
+            }
+            else
+            {
+                // Padding: no box here, so we just add 0 distance
+                totalDistance += 0f;
+            }
+        }
+
+        lastTotalDistance = totalDistance;
+
+        // Reset puzzle state
         manager.Reset();
     }
 
-    /*
-    public override void OnEpisodeBegin()
-    {
-        gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
-        gameObject.transform.Rotate(new Vector3(1, 0, 0), Random.Range(-10f, 10f));
-        gameObject.transform.Rotate(new Vector3(0, 0, 1), Random.Range(-10f, 10f));
-        m_BallRb.velocity = new Vector3(0f, 0f, 0f);
-        ball.transform.position = new Vector3(Random.Range(-1.5f, 1.5f), 4f, Random.Range(-1.5f, 1.5f))
-            + gameObject.transform.position;
-        //Reset the parameters when the Agent is reset.
-        SetResetParameters();
-    }
-    */
+
 
 
 
@@ -171,4 +262,14 @@ public class PuzzleAgent : Agent
         Debug.Log("Horizontal Input: " + Input.GetAxis("Horizontal"));
         Debug.Log("Vertical Input: " + Input.GetAxis("Vertical"));
     }
+
+    // Called when all boxes are in goals
+    public void OnPuzzleComplete()
+    {
+        AddReward(2.0f); // Big bonus reward
+        EndEpisode();
+    }
+
+
+
 }
