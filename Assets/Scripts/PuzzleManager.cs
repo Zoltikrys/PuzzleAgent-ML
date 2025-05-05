@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.MLAgents;
 
 public class PuzzleManager : MonoBehaviour
 {
@@ -9,6 +10,14 @@ public class PuzzleManager : MonoBehaviour
     private HashSet<GameObject> boxesInGoals = new HashSet<GameObject>();
 
     private bool puzzleComplete = false;
+
+    public float trainingSpeed = 10f;
+
+    void Start()
+    {
+        // Speed up training
+        //Time.timeScale = trainingSpeed;
+    }
 
     public void BoxEnteredGoal(GameObject box)
     {

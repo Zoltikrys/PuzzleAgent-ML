@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02a59ce3f4a48345a5a3dec335770eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzleComplete: 0
+  agent: {fileID: 0}
+  totalBoxesNeeded: 3
+  trainingSpeed: 1
