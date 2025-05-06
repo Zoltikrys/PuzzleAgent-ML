@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 644482497}
+  puzzleAgent: {fileID: 855542354}
 --- !u!1001 &18230185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -304,6 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 316453453}
+  puzzleAgent: {fileID: 278625140}
 --- !u!1001 &45754779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -602,6 +604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1964954500}
+  puzzleAgent: {fileID: 718817916}
 --- !u!1001 &71527821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1303,6 +1306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 276305815}
+  puzzleAgent: {fileID: 1665463524}
 --- !u!1001 &158471446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1775,6 +1779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 561759248}
+  puzzleAgent: {fileID: 341003622}
 --- !u!1001 &216144680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2042,6 +2047,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2475826679909320348, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
   m_PrefabInstance: {fileID: 216352190}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &228895736 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 1205452807}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &228964638 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 445517362}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &232615599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2357,6 +2384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 2044543106}
+  puzzleAgent: {fileID: 436106217}
 --- !u!1001 &276305813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2564,6 +2592,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2475826679909320348, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
   m_PrefabInstance: {fileID: 276305813}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &278625140 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 316453451}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &284029723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2803,6 +2842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 811071089}
+  puzzleAgent: {fileID: 1057068119}
 --- !u!1001 &316453451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3004,6 +3044,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2475826679909320348, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
   m_PrefabInstance: {fileID: 316453451}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &330609866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 1348446084}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &340066285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3086,6 +3137,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8011612871396356278, guid: 3685cb4b65e5d9145ba4443eca8a8dda, type: 3}
   m_PrefabInstance: {fileID: 340066285}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &341003622 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 561759246}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &342835104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3616,6 +3678,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 261597237229780240, guid: 7b84289154960fd4ab6a40baa02d12be, type: 3}
   m_PrefabInstance: {fileID: 387792368}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &412044811 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 1277112998}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &418967936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3792,6 +3865,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &424506339 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 45754779}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &427123955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3858,6 +3942,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 261597237229780240, guid: 7b84289154960fd4ab6a40baa02d12be, type: 3}
   m_PrefabInstance: {fileID: 427123955}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &436106217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 2044543104}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &439513287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4735,6 +4830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 45754781}
+  puzzleAgent: {fileID: 424506339}
 --- !u!1001 &546435874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5839,6 +5935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1348446086}
+  puzzleAgent: {fileID: 330609866}
 --- !u!1001 &674600733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5996,6 +6093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1520906005}
+  puzzleAgent: {fileID: 2064631824}
 --- !u!1001 &687285361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6262,6 +6360,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2475826679909320348, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
   m_PrefabInstance: {fileID: 701002856}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &718817916 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 1964954498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &729219302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6353,6 +6462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 104456589}
+  puzzleAgent: {fileID: 1623438502}
 --- !u!1001 &735820890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6444,6 +6554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 445517364}
+  puzzleAgent: {fileID: 228964638}
 --- !u!1001 &739141442
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6601,6 +6712,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 561759248}
+  puzzleAgent: {fileID: 341003622}
+--- !u!114 &759224102 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 1562384456}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &767649656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6758,6 +6881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 645474102}
+  puzzleAgent: {fileID: 1255148183}
 --- !u!1001 &811071087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7050,6 +7174,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 561759248}
+  puzzleAgent: {fileID: 341003622}
+--- !u!114 &855542354 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 644482495}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &859862543
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7355,6 +7491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1205452809}
+  puzzleAgent: {fileID: 228895736}
 --- !u!1001 &949944311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7446,6 +7583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1562384458}
+  puzzleAgent: {fileID: 759224102}
 --- !u!1001 &960986499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7603,6 +7741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1562384458}
+  puzzleAgent: {fileID: 759224102}
 --- !u!1001 &992661832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7842,11 +7981,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1964954500}
+  puzzleAgent: {fileID: 718817916}
 --- !u!4 &1034036276 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 261597237229780240, guid: 7b84289154960fd4ab6a40baa02d12be, type: 3}
   m_PrefabInstance: {fileID: 120500704}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1057068119 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 811071087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1068301215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7938,6 +8089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 45754781}
+  puzzleAgent: {fileID: 424506339}
 --- !u!1001 &1083082762
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8213,6 +8365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1520906005}
+  puzzleAgent: {fileID: 2064631824}
 --- !u!1001 &1110726508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8518,6 +8671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1520906005}
+  puzzleAgent: {fileID: 2064631824}
 --- !u!1001 &1172003081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8609,6 +8763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 2085246954}
+  puzzleAgent: {fileID: 1737142245}
 --- !u!1001 &1174165783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8700,6 +8855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 276305815}
+  puzzleAgent: {fileID: 1665463524}
 --- !u!1001 &1189129948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8878,6 +9034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1205452809}
+  puzzleAgent: {fileID: 228895736}
 --- !u!1001 &1205452807
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9156,6 +9313,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 261597237229780240, guid: 7b84289154960fd4ab6a40baa02d12be, type: 3}
   m_PrefabInstance: {fileID: 1247979407}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1255148183 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 645474100}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1270055596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9522,6 +9690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 2085246954}
+  puzzleAgent: {fileID: 1737142245}
 --- !u!1001 &1311985191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9782,6 +9951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 186561067}
+  puzzleAgent: {fileID: 1489718515}
 --- !u!1001 &1332744354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9873,6 +10043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1562384458}
+  puzzleAgent: {fileID: 759224102}
 --- !u!1001 &1336974512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10156,6 +10327,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2475826679909320348, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
   m_PrefabInstance: {fileID: 1348446084}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1386933904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 3323211685681243841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1395802411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10313,6 +10495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1561825238}
+  puzzleAgent: {fileID: 1913416500}
 --- !u!1001 &1427696471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10461,6 +10644,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8011612871396356278, guid: 3685cb4b65e5d9145ba4443eca8a8dda, type: 3}
   m_PrefabInstance: {fileID: 1462979824}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1465809674 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 216352190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1489718515 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 186561065}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1508453709
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10632,6 +10837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 118026462}
+  puzzleAgent: {fileID: 1386933904}
 --- !u!1001 &1520906003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10956,6 +11162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 445517364}
+  puzzleAgent: {fileID: 228964638}
 --- !u!1001 &1527654390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11113,6 +11320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 186561067}
+  puzzleAgent: {fileID: 1489718515}
 --- !u!1001 &1561825236
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11685,6 +11893,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 261597237229780240, guid: 7b84289154960fd4ab6a40baa02d12be, type: 3}
   m_PrefabInstance: {fileID: 1587939493}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1623438502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 104456587}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1640510494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11776,11 +11995,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 645474102}
+  puzzleAgent: {fileID: 1255148183}
 --- !u!4 &1644112360 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4182709621330606044, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
   m_PrefabInstance: {fileID: 3323211685681243841}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1665463524 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 276305813}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1670373943
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11870,6 +12101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 118026462}
+  puzzleAgent: {fileID: 1386933904}
 --- !u!4 &1699075342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4182709621330606044, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
@@ -11957,6 +12189,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8011612871396356278, guid: 3685cb4b65e5d9145ba4443eca8a8dda, type: 3}
   m_PrefabInstance: {fileID: 1716934935}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1737142245 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 2085246952}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1744491456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12114,6 +12357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 445517364}
+  puzzleAgent: {fileID: 228964638}
 --- !u!1001 &1774915644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12353,6 +12597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1277113000}
+  puzzleAgent: {fileID: 412044811}
 --- !u!1001 &1836341470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12526,6 +12771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1964954500}
+  puzzleAgent: {fileID: 718817916}
 --- !u!1001 &1906165639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12617,6 +12863,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 645474102}
+  puzzleAgent: {fileID: 1255148183}
+--- !u!114 &1913416500 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 1561825236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1920581059
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12892,6 +13150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 216352192}
+  puzzleAgent: {fileID: 1465809674}
 --- !u!1001 &1946653290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13768,6 +14027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1561825238}
+  puzzleAgent: {fileID: 1913416500}
 --- !u!1001 &2051468984
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13859,6 +14119,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 186561067}
+  puzzleAgent: {fileID: 1489718515}
+--- !u!114 &2064631824 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6196424792094338377, guid: 36cfb284fbf285641b3e9e1d7a960c87, type: 3}
+  m_PrefabInstance: {fileID: 1520906003}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36ae766d46847441b3185bbf39ed31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2082068181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14218,6 +14490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1277113000}
+  puzzleAgent: {fileID: 412044811}
 --- !u!1001 &3323211685681243841
 PrefabInstance:
   m_ObjectHideFlags: 0

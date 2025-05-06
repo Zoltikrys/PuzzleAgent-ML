@@ -1,0 +1,47 @@
+{
+    "PuzzleAgent": {
+        "checkpoints": [
+            {
+                "steps": 499800,
+                "file_path": "results\\uniMulti3\\PuzzleAgent\\PuzzleAgent-499800.onnx",
+                "reward": -0.12063960278672832,
+                "creation_time": 1746537306.1391733,
+                "auxillary_file_paths": [
+                    "results\\uniMulti3\\PuzzleAgent\\PuzzleAgent-499800.pt"
+                ]
+            },
+            {
+                "steps": 999800,
+                "file_path": "results\\uniMulti3\\PuzzleAgent\\PuzzleAgent-999800.onnx",
+                "reward": -0.21622439324855805,
+                "creation_time": 1746537702.3546362,
+                "auxillary_file_paths": [
+                    "results\\uniMulti3\\PuzzleAgent\\PuzzleAgent-999800.pt"
+                ]
+            },
+            {
+                "steps": 1131200,
+                "file_path": "results\\uniMulti3\\PuzzleAgent\\PuzzleAgent-1131200.onnx",
+                "reward": null,
+                "creation_time": 1746537881.262077,
+                "auxillary_file_paths": [
+                    "results\\uniMulti3\\PuzzleAgent\\PuzzleAgent-1131200.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1131200,
+            "file_path": "results\\uniMulti3\\PuzzleAgent.onnx",
+            "reward": null,
+            "creation_time": 1746537881.262077,
+            "auxillary_file_paths": [
+                "results\\uniMulti3\\PuzzleAgent\\PuzzleAgent-1131200.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

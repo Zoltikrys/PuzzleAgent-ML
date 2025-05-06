@@ -882,6 +882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleManager: {fileID: 1881147169975199885}
+  puzzleAgent: {fileID: 6196424792094338377}
 --- !u!1001 &3507125769495558394
 PrefabInstance:
   m_ObjectHideFlags: 0
