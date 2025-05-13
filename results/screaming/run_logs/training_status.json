@@ -2,58 +2,31 @@
     "PuzzleAgent": {
         "checkpoints": [
             {
-                "steps": 3499800,
-                "file_path": "results\\screaming\\PuzzleAgent\\PuzzleAgent-3499800.onnx",
-                "reward": 0.11108938314848477,
-                "creation_time": 1746541799.8896084,
+                "steps": 499863,
+                "file_path": "results\\Screaming\\PuzzleAgent\\PuzzleAgent-499863.onnx",
+                "reward": -0.9712856837681362,
+                "creation_time": 1747143486.1974497,
                 "auxillary_file_paths": [
-                    "results\\screaming\\PuzzleAgent\\PuzzleAgent-3499800.pt"
+                    "results\\Screaming\\PuzzleAgent\\PuzzleAgent-499863.pt"
                 ]
             },
             {
-                "steps": 3999800,
-                "file_path": "results\\screaming\\PuzzleAgent\\PuzzleAgent-3999800.onnx",
-                "reward": -0.3066381098968642,
-                "creation_time": 1746542302.2943072,
+                "steps": 953071,
+                "file_path": "results\\Screaming\\PuzzleAgent\\PuzzleAgent-953071.onnx",
+                "reward": -0.9977142470223563,
+                "creation_time": 1747143716.286009,
                 "auxillary_file_paths": [
-                    "results\\screaming\\PuzzleAgent\\PuzzleAgent-3999800.pt"
-                ]
-            },
-            {
-                "steps": 4499800,
-                "file_path": "results\\screaming\\PuzzleAgent\\PuzzleAgent-4499800.onnx",
-                "reward": -0.042485631878177325,
-                "creation_time": 1746542686.749391,
-                "auxillary_file_paths": [
-                    "results\\screaming\\PuzzleAgent\\PuzzleAgent-4499800.pt"
-                ]
-            },
-            {
-                "steps": 4999800,
-                "file_path": "results\\screaming\\PuzzleAgent\\PuzzleAgent-4999800.onnx",
-                "reward": 0.268945528437262,
-                "creation_time": 1746543074.3574235,
-                "auxillary_file_paths": [
-                    "results\\screaming\\PuzzleAgent\\PuzzleAgent-4999800.pt"
-                ]
-            },
-            {
-                "steps": 5163200,
-                "file_path": "results\\screaming\\PuzzleAgent\\PuzzleAgent-5163200.onnx",
-                "reward": null,
-                "creation_time": 1746543405.1683908,
-                "auxillary_file_paths": [
-                    "results\\screaming\\PuzzleAgent\\PuzzleAgent-5163200.pt"
+                    "results\\Screaming\\PuzzleAgent\\PuzzleAgent-953071.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 5163200,
-            "file_path": "results\\screaming\\PuzzleAgent.onnx",
-            "reward": null,
-            "creation_time": 1746543405.1683908,
+            "steps": 953071,
+            "file_path": "results\\Screaming\\PuzzleAgent.onnx",
+            "reward": -0.9977142470223563,
+            "creation_time": 1747143716.286009,
             "auxillary_file_paths": [
-                "results\\screaming\\PuzzleAgent\\PuzzleAgent-5163200.pt"
+                "results\\Screaming\\PuzzleAgent\\PuzzleAgent-953071.pt"
             ]
         }
     },

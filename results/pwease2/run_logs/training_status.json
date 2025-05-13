@@ -1,0 +1,38 @@
+{
+    "PuzzleAgent": {
+        "checkpoints": [
+            {
+                "steps": 499978,
+                "file_path": "results\\pwease2\\PuzzleAgent\\PuzzleAgent-499978.onnx",
+                "reward": 0.2927723955363035,
+                "creation_time": 1747160269.6184902,
+                "auxillary_file_paths": [
+                    "results\\pwease2\\PuzzleAgent\\PuzzleAgent-499978.pt"
+                ]
+            },
+            {
+                "steps": 877164,
+                "file_path": "results\\pwease2\\PuzzleAgent\\PuzzleAgent-877164.onnx",
+                "reward": 0.6834166171960533,
+                "creation_time": 1747162438.9391584,
+                "auxillary_file_paths": [
+                    "results\\pwease2\\PuzzleAgent\\PuzzleAgent-877164.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 877164,
+            "file_path": "results\\pwease2\\PuzzleAgent.onnx",
+            "reward": 0.6834166171960533,
+            "creation_time": 1747162438.9391584,
+            "auxillary_file_paths": [
+                "results\\pwease2\\PuzzleAgent\\PuzzleAgent-877164.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

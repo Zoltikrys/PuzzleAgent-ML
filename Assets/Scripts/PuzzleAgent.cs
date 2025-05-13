@@ -34,6 +34,34 @@ public class PuzzleAgent : Agent
     [SerializeField] private int maxBoxes = 4;
     [SerializeField] private int maxGoals = 4;
 
+    private Dictionary<Transform, float> lastBoxDistances = new Dictionary<Transform, float>();
+
+    private List<(Transform, Transform)> GetUnmatchedPairs()
+    {
+        var unmatched = new List<(Transform, Transform)>();
+        foreach (Transform box in boxTransforms)
+        {
+            if (matchedPairs.Exists(p => p.box == box)) continue;
+            Transform nearestGoal = null;
+            float minDist = float.MaxValue;
+            foreach (Transform goal in goalTransforms)
+            {
+                if (matchedPairs.Exists(p => p.goal == goal)) continue;
+                float dist = Vector3.Distance(box.position, goal.position);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    nearestGoal = goal;
+                }
+            }
+            if (nearestGoal != null)
+                unmatched.Add((box, nearestGoal));
+        }
+        return unmatched;
+    }
+
+
+
     public override void CollectObservations(VectorSensor sensor)
     {
         // Observe agent position
@@ -89,115 +117,106 @@ public class PuzzleAgent : Agent
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         // === Move agent ===
-        float moveX = actionBuffers.ContinuousActions[0];
-        float moveZ = actionBuffers.ContinuousActions[1];
-
+        float moveX = Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
+        float moveZ = Mathf.Clamp(actionBuffers.ContinuousActions[1], -1f, 1f);
         Vector3 movement = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
         agentRB.MovePosition(transform.position + movement);
 
-        // === Step penalty ===
+        // === Step penalty to encourage efficiency ===
         AddReward(-0.001f);
 
-        // === Get current total box-goal distance ===
-        float totalDistance = 0f;
+        // === Closest box logic ===
+        Transform closestBox = null;
+        float closestDist = float.MaxValue;
 
-        for (int i = 0; i < maxBoxes; i++)
+        foreach (Transform box in boxTransforms)
         {
-            if (i < boxTransforms.Count)
+            if (matchedPairs.Exists(pair => pair.box == box)) continue;
+
+            float dist = Vector3.Distance(transform.position, box.position);
+            if (dist < closestDist)
             {
-                Transform box = boxTransforms[i];
-                float closestGoalDist = float.MaxValue;
-
-                for (int j = 0; j < maxGoals; j++)
-                {
-                    if (j < goalTransforms.Count)
-                    {
-                        Transform goal = goalTransforms[j];
-                        float dist = Vector3.Distance(box.position, goal.position);
-                        if (dist < closestGoalDist)
-                            closestGoalDist = dist;
-                    }
-                }
-
-                totalDistance += closestGoalDist;
+                closestDist = dist;
+                closestBox = box;
             }
         }
 
-        
-        // === Reward for reducing total distance ===
-        float distanceChange = lastTotalDistance - totalDistance;
-        AddReward(distanceChange * 0.1f); // The 0.1f scales the reward (tweakable)
+        if (closestBox != null)
+        {
+            float distToBox = Vector3.Distance(transform.position, closestBox.position);
+            float reward = Mathf.Clamp01(1f - distToBox / 10f); // closer = higher reward
+            AddReward(reward * 0.001f); // small shaping reward
+        }
 
-        lastTotalDistance = totalDistance;
-        
-
-
-        // === Small reward when agent gets closer to nearest box ===
-        float closestBoxDist = float.MaxValue;
+        // === Check if box is moving (pushed) ===
         foreach (Transform box in boxTransforms)
         {
-            float dist = Vector3.Distance(transform.position, box.position);
-            if (dist < closestBoxDist)
-                closestBoxDist = dist;
-        }
-        // Reward getting closer, punish moving away
-        float boxProximityReward = Mathf.Clamp01(1.0f - (closestBoxDist / 10.0f)); // Assumes room ~10 units big
-        AddReward(boxProximityReward * 0.001f);
+            if (matchedPairs.Exists(pair => pair.box == box)) continue;
 
-        // Check for newly matched boxes and goals
+            Rigidbody boxRB = box.GetComponent<Rigidbody>();
+            if (boxRB.velocity.magnitude > 0.1f)
+            {
+                AddReward(0.002f); // reward for interacting
+            }
+        }
+
+        // === Reward for moving boxes closer to goals ===
+        foreach ((Transform box, Transform goal) in GetUnmatchedPairs())
+        {
+            float beforeDist = Vector3.Distance(box.position, goal.position);
+            if (!lastBoxDistances.ContainsKey(box))
+                lastBoxDistances[box] = beforeDist;
+
+            float distDelta = lastBoxDistances[box] - beforeDist;
+            if (distDelta > 0)
+            {
+                AddReward(distDelta * 0.01f); // reward progress
+                lastBoxDistances[box] = beforeDist;
+            }
+        }
+
+        // === Matching logic ===
         for (int i = 0; i < boxTransforms.Count; i++)
         {
             Transform box = boxTransforms[i];
-
-            // Skip if already matched
-            bool alreadyMatched = matchedPairs.Exists(pair => pair.box == box);
-            if (alreadyMatched) continue;
+            if (matchedPairs.Exists(pair => pair.box == box)) continue;
 
             for (int j = 0; j < goalTransforms.Count; j++)
             {
                 Transform goal = goalTransforms[j];
-
-                bool goalAlreadyMatched = matchedPairs.Exists(pair => pair.goal == goal);
-                if (goalAlreadyMatched) continue;
-
+                if (matchedPairs.Exists(pair => pair.goal == goal)) continue;
 
                 Vector2 boxPos2D = new Vector2(box.position.x, box.position.z);
                 Vector2 goalPos2D = new Vector2(goal.position.x, goal.position.z);
 
-                if (Vector2.Distance(boxPos2D, goalPos2D) < 0.25f) // match threshold (tweakable)
-
+                if (Vector2.Distance(boxPos2D, goalPos2D) < 0.25f)
                 {
+                    box.position = new Vector3(goal.position.x, box.position.y, goal.position.z);
+                    box.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    box.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
-
-                    box.position = new Vector3(goal.position.x, box.position.y, goal.position.z); //snap box onto goal
-
-                    //zero box velocity
-                    Rigidbody boxRB = box.GetComponent<Rigidbody>();
-                    boxRB.velocity = Vector3.zero;
-                    boxRB.angularVelocity = Vector3.zero;
-
-                    // Mark this pair as matched
                     matchedPairs.Add((box, goal));
-
-                    // "Disappear" them
                     box.gameObject.SetActive(false);
                     goal.gameObject.SetActive(false);
 
-                    // Give reward
-                    AddReward(1.0f);
-
-                    break; // break inner loop
+                    AddReward(1.0f); // success reward
+                    break;
                 }
             }
         }
 
-        // End episode when all boxes are matched
+        // === Completion ===
         if (matchedPairs.Count == Mathf.Min(boxTransforms.Count, goalTransforms.Count))
         {
-            AddReward(2.0f); // Big bonus
+            AddReward(2.0f); // big bonus
             EndEpisode();
         }
     }
+
+
+
+
+
 
     // Reward on completion
     public void OnPuzzleComplete()
@@ -282,6 +301,8 @@ public class PuzzleAgent : Agent
             goal.localPosition = new Vector3(Random.Range(-8.3f, 5f), 6.77f, Random.Range(-11.65f, 1.35f));
         }
 
+
+        /*
         // Reset total distance tracker (matching padding logic)
         float totalDistance = 0f;
 
@@ -311,6 +332,9 @@ public class PuzzleAgent : Agent
         }
 
         lastTotalDistance = totalDistance;
+
+        */
+
 
         // Reset puzzle state
         manager.Reset();
