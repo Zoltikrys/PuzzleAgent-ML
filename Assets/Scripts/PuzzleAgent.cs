@@ -100,7 +100,6 @@ public class PuzzleAgent : Agent
 
         // === Get current total box-goal distance ===
         float totalDistance = 0f;
-
         for (int i = 0; i < maxBoxes; i++)
         {
             if (i < boxTransforms.Count)
@@ -123,14 +122,61 @@ public class PuzzleAgent : Agent
             }
         }
 
-        
         // === Reward for reducing total distance ===
         float distanceChange = lastTotalDistance - totalDistance;
         AddReward(distanceChange * 0.1f); // The 0.1f scales the reward (tweakable)
 
         lastTotalDistance = totalDistance;
-        
 
+        // === Reward for reducing box-to-goal distance ===
+        for (int i = 0; i < boxTransforms.Count; i++)
+        {
+            Transform box = boxTransforms[i];
+            if (box != null)
+            {
+                float closestGoalDist = float.MaxValue;
+
+                for (int j = 0; j < goalTransforms.Count; j++)
+                {
+                    if (goalTransforms[j] != null)
+                    {
+                        Transform goal = goalTransforms[j];
+                        float dist = Vector3.Distance(box.position, goal.position);
+                        if (dist < closestGoalDist)
+                            closestGoalDist = dist;
+                    }
+                }
+
+                // Reward for moving the box closer to the goal
+                if (closestGoalDist < 0.25f) // Within 0.25 units of the goal
+                {
+                    AddReward(0.5f); // Reward for getting close to the goal
+                }
+            }
+        }
+
+        // === Penalize moving the box away from the goal ===
+        for (int i = 0; i < boxTransforms.Count; i++)
+        {
+            Transform box = boxTransforms[i];
+            if (box != null)
+            {
+                float closestGoalDist = float.MaxValue;
+                for (int j = 0; j < goalTransforms.Count; j++)
+                {
+                    Transform goal = goalTransforms[j];
+                    float dist = Vector3.Distance(box.position, goal.position);
+                    if (dist < closestGoalDist)
+                        closestGoalDist = dist;
+                }
+
+                // Apply a small penalty for moving away from the goal
+                if (closestGoalDist > 1.0f) // Distance threshold to consider moving away
+                {
+                    AddReward(-0.05f); // Apply small penalty
+                }
+            }
+        }
 
         // === Small reward when agent gets closer to nearest box ===
         float closestBoxDist = float.MaxValue;
@@ -140,6 +186,7 @@ public class PuzzleAgent : Agent
             if (dist < closestBoxDist)
                 closestBoxDist = dist;
         }
+
         // Reward getting closer, punish moving away
         float boxProximityReward = Mathf.Clamp01(1.0f - (closestBoxDist / 10.0f)); // Assumes room ~10 units big
         AddReward(boxProximityReward * 0.001f);
@@ -160,15 +207,11 @@ public class PuzzleAgent : Agent
                 bool goalAlreadyMatched = matchedPairs.Exists(pair => pair.goal == goal);
                 if (goalAlreadyMatched) continue;
 
-
                 Vector2 boxPos2D = new Vector2(box.position.x, box.position.z);
                 Vector2 goalPos2D = new Vector2(goal.position.x, goal.position.z);
 
                 if (Vector2.Distance(boxPos2D, goalPos2D) < 0.25f) // match threshold (tweakable)
-
                 {
-
-
                     box.position = new Vector3(goal.position.x, box.position.y, goal.position.z); //snap box onto goal
 
                     //zero box velocity
@@ -198,6 +241,7 @@ public class PuzzleAgent : Agent
             EndEpisode();
         }
     }
+
 
     // Reward on completion
     public void OnPuzzleComplete()
