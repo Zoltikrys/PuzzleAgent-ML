@@ -14,6 +14,9 @@ public class PuzzleAgent : Agent
     private float lastTotalDistance;
 
     private List<(Transform box, Transform goal)> matchedPairs = new List<(Transform, Transform)>();
+    
+    // Track the minimum distance between each box and goal during the episode
+    private Dictionary<Transform, float> minBoxGoalDistances = new Dictionary<Transform, float>();
 
 
     public List<Transform> boxTransforms; // References to multiple box transforms
@@ -114,104 +117,113 @@ public class PuzzleAgent : Agent
     }
 
     // Take actions
+    // Replace the entire OnActionReceived method with this:
+
     public override void OnActionReceived(ActionBuffers actionBuffers)
+{
+    // === Move agent ===
+    float moveX = Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
+    float moveZ = Mathf.Clamp(actionBuffers.ContinuousActions[1], -1f, 1f);
+    Vector3 movement = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
+    agentRB.MovePosition(transform.position + movement);
+
+    // === Step penalty to encourage efficiency ===
+    AddReward(-0.001f);
+
+    // === Closest box logic ===
+    Transform closestBox = null;
+    float closestDist = float.MaxValue;
+
+    foreach (Transform box in boxTransforms)
     {
-        // === Move agent ===
-        float moveX = Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
-        float moveZ = Mathf.Clamp(actionBuffers.ContinuousActions[1], -1f, 1f);
-        Vector3 movement = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
-        agentRB.MovePosition(transform.position + movement);
+        if (matchedPairs.Exists(pair => pair.box == box)) continue;
 
-        // === Step penalty to encourage efficiency ===
-        AddReward(-0.001f);
-
-        // === Closest box logic ===
-        Transform closestBox = null;
-        float closestDist = float.MaxValue;
-
-        foreach (Transform box in boxTransforms)
+        float dist = Vector3.Distance(transform.position, box.position);
+        if (dist < closestDist)
         {
-            if (matchedPairs.Exists(pair => pair.box == box)) continue;
-
-            float dist = Vector3.Distance(transform.position, box.position);
-            if (dist < closestDist)
-            {
-                closestDist = dist;
-                closestBox = box;
-            }
-        }
-
-        if (closestBox != null)
-        {
-            float distToBox = Vector3.Distance(transform.position, closestBox.position);
-            float reward = Mathf.Clamp01(1f - distToBox / 10f); // closer = higher reward
-            AddReward(reward * 0.001f); // small shaping reward
-        }
-
-        // === Check if box is moving (pushed) ===
-        foreach (Transform box in boxTransforms)
-        {
-            if (matchedPairs.Exists(pair => pair.box == box)) continue;
-
-            Rigidbody boxRB = box.GetComponent<Rigidbody>();
-            if (boxRB.velocity.magnitude > 0.1f)
-            {
-                AddReward(0.002f); // reward for interacting
-            }
-        }
-
-        // === Reward for moving boxes closer to goals ===
-        foreach ((Transform box, Transform goal) in GetUnmatchedPairs())
-        {
-            float beforeDist = Vector3.Distance(box.position, goal.position);
-            if (!lastBoxDistances.ContainsKey(box))
-                lastBoxDistances[box] = beforeDist;
-
-            float distDelta = lastBoxDistances[box] - beforeDist;
-            if (distDelta > 0)
-            {
-                AddReward(distDelta * 0.01f); // reward progress
-                lastBoxDistances[box] = beforeDist;
-            }
-        }
-
-        // === Matching logic ===
-        for (int i = 0; i < boxTransforms.Count; i++)
-        {
-            Transform box = boxTransforms[i];
-            if (matchedPairs.Exists(pair => pair.box == box)) continue;
-
-            for (int j = 0; j < goalTransforms.Count; j++)
-            {
-                Transform goal = goalTransforms[j];
-                if (matchedPairs.Exists(pair => pair.goal == goal)) continue;
-
-                Vector2 boxPos2D = new Vector2(box.position.x, box.position.z);
-                Vector2 goalPos2D = new Vector2(goal.position.x, goal.position.z);
-
-                if (Vector2.Distance(boxPos2D, goalPos2D) < 0.25f)
-                {
-                    box.position = new Vector3(goal.position.x, box.position.y, goal.position.z);
-                    box.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    box.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-                    matchedPairs.Add((box, goal));
-                    box.gameObject.SetActive(false);
-                    goal.gameObject.SetActive(false);
-
-                    AddReward(1.0f); // success reward
-                    break;
-                }
-            }
-        }
-
-        // === Completion ===
-        if (matchedPairs.Count == Mathf.Min(boxTransforms.Count, goalTransforms.Count))
-        {
-            AddReward(2.0f); // big bonus
-            EndEpisode();
+            closestDist = dist;
+            closestBox = box;
         }
     }
+
+    // Reward for getting closer to the box
+    if (closestBox != null)
+    {
+        float distToBox = Vector3.Distance(transform.position, closestBox.position);
+        float boxApproachReward = Mathf.Clamp01(1f - distToBox / 10f); // reward for getting closer to the box
+        AddReward(boxApproachReward * 0.01f);
+    }
+
+    // === Reward for pushing boxes in the correct direction ===
+    foreach ((Transform box, Transform goal) in GetUnmatchedPairs())
+    {
+        Rigidbody boxRB = box.GetComponent<Rigidbody>();
+        float distToGoal = Vector3.Distance(box.position, goal.position);
+
+        // Initialize or update the minimum distance for this box-goal pair
+        if (!minBoxGoalDistances.ContainsKey(box) || distToGoal < minBoxGoalDistances[box])
+        {
+            minBoxGoalDistances[box] = distToGoal;
+        }
+
+        // Reward for making progress by getting closer to the goal
+        if (distToGoal < minBoxGoalDistances[box])
+        {
+            float distProgress = minBoxGoalDistances[box] - distToGoal;
+            AddReward(distProgress * 0.01f); // reward for moving closer
+            minBoxGoalDistances[box] = distToGoal; // update minimum distance
+        }
+
+        // Penalize for moving the box away from the goal
+        else if (distToGoal > minBoxGoalDistances[box])
+        {
+            AddReward(-0.05f); // penalize for moving away from the goal
+        }
+
+        // Non-linear proximity reward (higher reward when closer to goal)
+        float proximityReward = Mathf.Pow(Mathf.Clamp01(1f - distToGoal / 10f), 2f);
+        AddReward(proximityReward * 0.1f);
+    }
+
+    // === Matching logic ===
+    for (int i = 0; i < boxTransforms.Count; i++)
+    {
+        Transform box = boxTransforms[i];
+        if (matchedPairs.Exists(pair => pair.box == box)) continue;
+
+        for (int j = 0; j < goalTransforms.Count; j++)
+        {
+            Transform goal = goalTransforms[j];
+            if (matchedPairs.Exists(pair => pair.goal == goal)) continue;
+
+            Vector2 boxPos2D = new Vector2(box.position.x, box.position.z);
+            Vector2 goalPos2D = new Vector2(goal.position.x, goal.position.z);
+
+            if (Vector2.Distance(boxPos2D, goalPos2D) < 0.25f)
+            {
+                box.position = new Vector3(goal.position.x, box.position.y, goal.position.z);
+                box.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                box.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+                matchedPairs.Add((box, goal));
+                box.gameObject.SetActive(false);
+                goal.gameObject.SetActive(false);
+
+                AddReward(1.0f); // success reward
+                break;
+            }
+        }
+    }
+
+    // === Completion check ===
+    if (matchedPairs.Count == Mathf.Min(boxTransforms.Count, goalTransforms.Count))
+    {
+        AddReward(2.0f); // big bonus
+        EndEpisode();
+    }
+}
+
+
 
 
 
