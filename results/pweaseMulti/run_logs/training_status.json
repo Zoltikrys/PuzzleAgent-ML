@@ -1,0 +1,65 @@
+{
+    "PuzzleAgent": {
+        "checkpoints": [
+            {
+                "steps": 499973,
+                "file_path": "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-499973.onnx",
+                "reward": -0.20772726088762283,
+                "creation_time": 1747193162.6910968,
+                "auxillary_file_paths": [
+                    "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-499973.pt"
+                ]
+            },
+            {
+                "steps": 999920,
+                "file_path": "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-999920.onnx",
+                "reward": -0.015219144523143768,
+                "creation_time": 1747195019.0425203,
+                "auxillary_file_paths": [
+                    "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-999920.pt"
+                ]
+            },
+            {
+                "steps": 1499900,
+                "file_path": "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-1499900.onnx",
+                "reward": -0.23471325635910034,
+                "creation_time": 1747196855.9297652,
+                "auxillary_file_paths": [
+                    "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-1499900.pt"
+                ]
+            },
+            {
+                "steps": 1999976,
+                "file_path": "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-1999976.onnx",
+                "reward": null,
+                "creation_time": 1747198696.687066,
+                "auxillary_file_paths": [
+                    "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-1999976.pt"
+                ]
+            },
+            {
+                "steps": 2179268,
+                "file_path": "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-2179268.onnx",
+                "reward": null,
+                "creation_time": 1747199394.6997068,
+                "auxillary_file_paths": [
+                    "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-2179268.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2179268,
+            "file_path": "results\\pweaseMulti\\PuzzleAgent.onnx",
+            "reward": null,
+            "creation_time": 1747199394.6997068,
+            "auxillary_file_paths": [
+                "results\\pweaseMulti\\PuzzleAgent\\PuzzleAgent-2179268.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

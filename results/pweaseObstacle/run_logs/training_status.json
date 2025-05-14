@@ -1,0 +1,65 @@
+{
+    "PuzzleAgent": {
+        "checkpoints": [
+            {
+                "steps": 1499820,
+                "file_path": "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-1499820.onnx",
+                "reward": -0.22178741544485092,
+                "creation_time": 1747204537.1535208,
+                "auxillary_file_paths": [
+                    "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-1499820.pt"
+                ]
+            },
+            {
+                "steps": 1999993,
+                "file_path": "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-1999993.onnx",
+                "reward": 0.1415886625647545,
+                "creation_time": 1747206174.84936,
+                "auxillary_file_paths": [
+                    "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-1999993.pt"
+                ]
+            },
+            {
+                "steps": 2499826,
+                "file_path": "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-2499826.onnx",
+                "reward": null,
+                "creation_time": 1747207789.9861114,
+                "auxillary_file_paths": [
+                    "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-2499826.pt"
+                ]
+            },
+            {
+                "steps": 2999916,
+                "file_path": "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-2999916.onnx",
+                "reward": -0.21782375765698297,
+                "creation_time": 1747209449.3622284,
+                "auxillary_file_paths": [
+                    "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-2999916.pt"
+                ]
+            },
+            {
+                "steps": 3401767,
+                "file_path": "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-3401767.onnx",
+                "reward": -0.19402381032705307,
+                "creation_time": 1747210775.273105,
+                "auxillary_file_paths": [
+                    "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-3401767.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3401767,
+            "file_path": "results\\pweaseObstacle\\PuzzleAgent.onnx",
+            "reward": -0.19402381032705307,
+            "creation_time": 1747210775.273105,
+            "auxillary_file_paths": [
+                "results\\pweaseObstacle\\PuzzleAgent\\PuzzleAgent-3401767.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

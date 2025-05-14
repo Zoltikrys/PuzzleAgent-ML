@@ -1,0 +1,56 @@
+{
+    "PuzzleAgent": {
+        "checkpoints": [
+            {
+                "steps": 499912,
+                "file_path": "results\\pwease22\\PuzzleAgent\\PuzzleAgent-499912.onnx",
+                "reward": 0.29232604666189715,
+                "creation_time": 1747187263.2000582,
+                "auxillary_file_paths": [
+                    "results\\pwease22\\PuzzleAgent\\PuzzleAgent-499912.pt"
+                ]
+            },
+            {
+                "steps": 999911,
+                "file_path": "results\\pwease22\\PuzzleAgent\\PuzzleAgent-999911.onnx",
+                "reward": 1.2349805235862732,
+                "creation_time": 1747189041.843521,
+                "auxillary_file_paths": [
+                    "results\\pwease22\\PuzzleAgent\\PuzzleAgent-999911.pt"
+                ]
+            },
+            {
+                "steps": 1499978,
+                "file_path": "results\\pwease22\\PuzzleAgent\\PuzzleAgent-1499978.onnx",
+                "reward": 1.4026526192372495,
+                "creation_time": 1747190840.9422917,
+                "auxillary_file_paths": [
+                    "results\\pwease22\\PuzzleAgent\\PuzzleAgent-1499978.pt"
+                ]
+            },
+            {
+                "steps": 1597148,
+                "file_path": "results\\pwease22\\PuzzleAgent\\PuzzleAgent-1597148.onnx",
+                "reward": 1.5888665616512299,
+                "creation_time": 1747191195.7463453,
+                "auxillary_file_paths": [
+                    "results\\pwease22\\PuzzleAgent\\PuzzleAgent-1597148.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1597148,
+            "file_path": "results\\pwease22\\PuzzleAgent.onnx",
+            "reward": 1.5888665616512299,
+            "creation_time": 1747191195.7463453,
+            "auxillary_file_paths": [
+                "results\\pwease22\\PuzzleAgent\\PuzzleAgent-1597148.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
