@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Unity.MLAgents;
-using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
+using UnityEngine;
 using Random = UnityEngine.Random;
-using Unity.VisualScripting;
 
 public class PuzzleAgent : Agent
 {
@@ -15,34 +13,33 @@ public class PuzzleAgent : Agent
 
     private List<(Transform box, Transform goal)> matchedPairs = new List<(Transform, Transform)>();
 
+    public List<Transform> boxTransforms; //References to multiple box transforms
+    public List<Transform> goalTransforms; //References to multiple goal transforms
 
-    public List<Transform> boxTransforms; // References to multiple box transforms
-    public List<Transform> goalTransforms; // References to multiple goal transforms
-
-    public float moveSpeed = 5f; // Movement speed of the agent
-    public float pushForce = 5f; // Force applied to the box when pushed by the agent
+    public float moveSpeed = 5f; //Movement speed of the agent
+    public float pushForce = 5f; //Force applied to the box when pushed by the agent
 
     [SerializeField] private Rigidbody agentRB;
 
-    // Called when the agent is reset/placed into the environment
+    //Called when the agent is reset orplaced into the environment
     public override void Initialize()
     {
         agentRB = GetComponent<Rigidbody>();
     }
 
-    // Collect observations for the agent
+    //Collect observations for the agent
     [SerializeField] private int maxBoxes = 4;
     [SerializeField] private int maxGoals = 4;
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Observe agent position
+        //Observe agent position
         sensor.AddObservation(transform.position);
 
-        // Observe agent velocity
+        //Observe agent velocity
         sensor.AddObservation(agentRB.velocity);
 
-        // === Observe boxes ===
+        //Observe boxes
         int boxCount = boxTransforms.Count;
 
         for (int i = 0; i < maxBoxes; i++)
@@ -58,14 +55,14 @@ public class PuzzleAgent : Agent
             }
             else
             {
-                // Padding: add zero observations
-                sensor.AddObservation(Vector3.zero); // box.position
-                sensor.AddObservation(Vector3.zero); // box relative position
-                sensor.AddObservation(Vector3.zero); // box velocity
+                //Padding for fewer boxes
+                sensor.AddObservation(Vector3.zero); //box.position
+                sensor.AddObservation(Vector3.zero); //box relative position
+                sensor.AddObservation(Vector3.zero); //box velocity
             }
         }
 
-        // === Observe goals ===
+        //Observe goals
         int goalCount = goalTransforms.Count;
 
         for (int i = 0; i < maxGoals; i++)
@@ -78,27 +75,27 @@ public class PuzzleAgent : Agent
             }
             else
             {
-                // Padding: add zero observations
-                sensor.AddObservation(Vector3.zero); // goal.position
-                sensor.AddObservation(Vector3.zero); // goal relative position
+                //Padding for fewer goals
+                sensor.AddObservation(Vector3.zero); //goal.position
+                sensor.AddObservation(Vector3.zero); //goal relative position
             }
         }
     }
 
-    // Take actions
+    //Take actions
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        // === Move agent ===
+        //Move agent
         float moveX = actionBuffers.ContinuousActions[0];
         float moveZ = actionBuffers.ContinuousActions[1];
 
         Vector3 movement = new Vector3(moveX, 0, moveZ) * moveSpeed * Time.deltaTime;
         agentRB.MovePosition(transform.position + movement);
 
-        // === Step penalty ===
+        //Step penalty
         AddReward(-0.001f);
 
-        // === Get current total box-goal distance ===
+        //Get current total box-goal distance
         float totalDistance = 0f;
 
         for (int i = 0; i < maxBoxes; i++)
@@ -118,21 +115,17 @@ public class PuzzleAgent : Agent
                             closestGoalDist = dist;
                     }
                 }
-
                 totalDistance += closestGoalDist;
             }
         }
-
-        
-        // === Reward for reducing total distance ===
+                
+        //Reward for reducing total distance
         float distanceChange = lastTotalDistance - totalDistance;
-        AddReward(distanceChange * 0.1f); // The 0.1f scales the reward (tweakable)
+        AddReward(distanceChange * 0.1f); //0.1f scales the reward
 
         lastTotalDistance = totalDistance;
         
-
-
-        // === Small reward when agent gets closer to nearest box ===
+        //Small reward when agent gets closer to nearest box
         float closestBoxDist = float.MaxValue;
         foreach (Transform box in boxTransforms)
         {
@@ -140,16 +133,16 @@ public class PuzzleAgent : Agent
             if (dist < closestBoxDist)
                 closestBoxDist = dist;
         }
-        // Reward getting closer, punish moving away
-        float boxProximityReward = Mathf.Clamp01(1.0f - (closestBoxDist / 10.0f)); // Assumes room ~10 units big
+        //Reward getting closer, punish moving away
+        float boxProximityReward = Mathf.Clamp01(1.0f - (closestBoxDist / 10.0f)); //Assumes room ~10 units big
         AddReward(boxProximityReward * 0.001f);
 
-        // Check for newly matched boxes and goals
+        //Check for newly matched boxes and goals
         for (int i = 0; i < boxTransforms.Count; i++)
         {
             Transform box = boxTransforms[i];
 
-            // Skip if already matched
+            //Skip if already matched
             bool alreadyMatched = matchedPairs.Exists(pair => pair.box == box);
             if (alreadyMatched) continue;
 
@@ -163,31 +156,6 @@ public class PuzzleAgent : Agent
 
                 Vector2 boxPos2D = new Vector2(box.position.x, box.position.z);
                 Vector2 goalPos2D = new Vector2(goal.position.x, goal.position.z);
-
-                if (Vector2.Distance(boxPos2D, goalPos2D) < 0.25f) // match threshold (tweakable)
-
-                {
-
-
-                    box.position = new Vector3(goal.position.x, box.position.y, goal.position.z); //snap box onto goal
-
-                    //zero box velocity
-                    Rigidbody boxRB = box.GetComponent<Rigidbody>();
-                    boxRB.velocity = Vector3.zero;
-                    boxRB.angularVelocity = Vector3.zero;
-
-                    // Mark this pair as matched
-                    matchedPairs.Add((box, goal));
-
-                    // "Disappear" them
-                    box.gameObject.SetActive(false);
-                    goal.gameObject.SetActive(false);
-
-                    // Give reward
-                    AddReward(1.0f);
-
-                    break; // break inner loop
-                }
             }
         }
 
@@ -199,58 +167,27 @@ public class PuzzleAgent : Agent
         }
     }
 
-    // Reward on completion
-    public void OnPuzzleComplete()
-    {
-        AddReward(2.0f); // Big bonus reward
-        EndEpisode();
-    }
-
-    // Called when all boxes are in goals
-    public void OnBoxInGoal()
-    {
-        SetReward(1.0f);
-        /////////////////////////////////////////////////////////////EndEpisode(); THIS LINE WASTED SO MUCH TIME
-    }
-
-    // Reward system
+    //Penalty for failing
     public void OnFailure()
     {
         SetReward(-1.0f);
         EndEpisode();
     }
+    
 
-    private void Update()
-    {
-
-        //CheckIfFallen();
-
-        /*
-        // Log detected inputs
-        Debug.Log("Horizontal Input: " + Input.GetAxis("Horizontal"));
-        Debug.Log("Vertical Input: " + Input.GetAxis("Vertical"));
-        */
-    }
-
-    // Called when the agent interacts with the environment
+    //Called when the agent is trained heuristically
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        /*
-        // Log detected inputs
-        Debug.Log("Horizontal Input: " + Input.GetAxis("Horizontal"));
-        Debug.Log("Vertical Input: " + Input.GetAxis("Vertical"));
-        */
-
-        // Set continuous actions
+        //Set continuous actions
         var continuousActionsOut = actionsOut.ContinuousActions;
         continuousActionsOut[0] = Input.GetAxis("Horizontal"); // Set horizontal movement
         continuousActionsOut[1] = Input.GetAxis("Vertical"); // Set vertical movement
     }
 
-    // Called when the agent is reset
+    //Called when the agent is reset
     public override void OnEpisodeBegin()
     {
-        // Reactivate all boxes and goals
+        //Reactivate all boxes and goals
         foreach (Transform box in boxTransforms)
         {
             box.gameObject.SetActive(true);
@@ -261,15 +198,15 @@ public class PuzzleAgent : Agent
             goal.gameObject.SetActive(true);
         }
 
-        // Clear matched pairs
+        //Clear matched pairs
         matchedPairs.Clear();
 
 
-        // Reset agent position
+        //Reset agent position
         transform.localPosition = new Vector3(Random.Range(-8.3f, 5f), 7.8f, Random.Range(-11.65f, 1.35f));
         agentRB.velocity = Vector3.zero;
 
-        // Reset each box
+        //Reset each box
         foreach (Transform box in boxTransforms)
         {
             box.localPosition = new Vector3(Random.Range(-8.3f, 5f), 7.5f, Random.Range(-11.65f, 1.35f));
@@ -282,7 +219,7 @@ public class PuzzleAgent : Agent
             goal.localPosition = new Vector3(Random.Range(-8.3f, 5f), 6.77f, Random.Range(-11.65f, 1.35f));
         }
 
-        // Reset total distance tracker (matching padding logic)
+        //Reset total distance tracker (matching padding logic)
         float totalDistance = 0f;
 
         for (int i = 0; i < maxBoxes; i++)
@@ -291,7 +228,7 @@ public class PuzzleAgent : Agent
             {
                 Transform box = boxTransforms[i];
 
-                // Find the closest goal for this box
+                //Find the closest goal for this box
                 float closestGoalDist = float.MaxValue;
 
                 foreach (Transform goal in goalTransforms)
@@ -305,28 +242,28 @@ public class PuzzleAgent : Agent
             }
             else
             {
-                // Padding: no box here, so we just add 0 distance
+                //Padding, no box here so we just add 0 distance
                 totalDistance += 0f;
             }
         }
 
         lastTotalDistance = totalDistance;
 
-        // Reset puzzle state
+        //Reset puzzle state
         manager.Reset();
     }
 
-    // Gizmos for debugging visualization
+    //Gizmos for debugging visualization
     private void OnDrawGizmos()
     {
-        // Draw lines from agent to selected box (assuming the agent is selecting the first box)
+        //Draw lines from agent to selected box (assuming the agent is selecting the first box)
         if (boxTransforms.Count > 0)
         {
             Gizmos.color = Color.red; // Set color for agent to box line
             Gizmos.DrawLine(transform.position, boxTransforms[0].position); // Line from agent to the first box
         }
 
-        // Draw lines from each box to each goal
+        //Draw lines from each box to each goal
         for (int i = 0; i < boxTransforms.Count; i++)
         {
             for (int j = 0; j < goalTransforms.Count; j++)
@@ -337,12 +274,11 @@ public class PuzzleAgent : Agent
         }
     }
 
-    private void CheckIfFallen() //added because in training the agent kept falling off the map
+    private void CheckIfFallen() //Added because in training the agent kept falling off the map, not necessary now but left in case it is needed again
     {
-        if (transform.localPosition.y < 5f) // adjust threshold depending on your map
+        if (transform.localPosition.y < 5f) //Adjust threshold depending on map
         {
             OnFailure();
         }
     }
-
 }
