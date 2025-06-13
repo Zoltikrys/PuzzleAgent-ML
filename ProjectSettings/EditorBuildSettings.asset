@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/PuzzleAgentTest.unity
+    guid: 98c3d55e66e7d524fab75736dbcf47b7
   m_configObjects: {}
